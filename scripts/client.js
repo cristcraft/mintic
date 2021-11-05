@@ -1,6 +1,7 @@
 let results = document.querySelector('#results')
 
 function getInfo(link,name){
+    results.innerHTML = ' '
     $.ajax({
         url:link,
         type:"GET",
@@ -85,7 +86,7 @@ function showInfo(items, name){
                     <input type="text" name="name" id="name" class="form-control" value="${message.messagetext}">
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-outline-danger" onclick="borrar(${message.id})">Borrar</button>
+                    <a class="btn btn-outline-danger" onclick="deleteAction('${message.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/message/message/:id', 'message')">Borrar</a>
     
                     <button class="btn btn-outline-primary">Actualizar</button>
                 </div>
@@ -96,44 +97,40 @@ function showInfo(items, name){
     }
 }
 
-function save(link,name){
+
+function save(link, name){
     event.preventDefault()  
-    let data;
-    if(name === 'client'){
-        data = {
-            id: $('#id').val(),
-            name: $('#name').val(),
-            email: $('#email').val(),
-            age: $("#age").val()
-        }
-    }else if(name === 'cloud'){
-        data = {
-            id: $('#id').val(),
-            name: $('#name').val(),
-            email: $('#email').val(),
-            age: $("#age").val()
-        }
-    }else if(name === 'message'){
-        data = {
-            id: $('#id').val(),
-            messagetext: $('#messagetext').val()
-        }
-    }
-
-    let dataToSend = JSON.stringify(data);
-    console.log(dataToSend, link)
-
-    $.ajax({
+    let myData={         
+        id: parseInt($("#id").val()),         
+        messagetext:$("#messagetext").val(),     
+    };     
+    let dataToSend=JSON.stringify(myData);     
+    $.ajax({         
         url:link,
-        type: "POST",
-        data: dataToSend,
-        datatype: "JSON",
+        type:"POST",         
+        data:dataToSend,         
+        datatype:"JSON",         
+        success:function(respuesta){                          
+            $("#id").val("");             
+            $("#messagetext").val("");             
+            getInfo();             
+            alert("Se ha guardado la información")         }         });
+}
+
+function deleteAction(elementId, link, name){
+    let id = {id: parseInt(elementId)}
+    id = JSON.stringify(id)
+    console.log(id)
+    $.ajax({
+        url: link,
+        type: "DELETE",
+        data: id,
+        contentType: "application/JSON",
+        dataType: "JSON",
         success: function(response){
-            $('#id').val(""),
-            $('#messagetext').val("")
-            getInfo(link,name);
-            alert('Se ha guardado')
+            showInfo(link,name)
+            alert('eliminado')
         }
-        }
-    )
+    })
+
 }
