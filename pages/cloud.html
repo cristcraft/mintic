@@ -14,27 +14,25 @@
         <form action="" class="w-50">
             <div class="mb-3">
                 <label for="id" class="form-label">ID</label>
-                <input type="number" name="id" id="id" class="form-control">
+                <input type="number" name="id" id="id" class="form-control" >
+            </div>
+            <div class="mb-3">
+                <label for="brand" class="form-label">Brand</label>
+                <input type="text" name="brand" id="brand" class="form-control" >
+            </div>
+            <div class="mb-3">
+                <label for="category_id" class="form-label">Category_idl</label>
+                <input type="number" name="category_id" id="category_id" class="form-control" >
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
-                <input type="text" name="name" id="name" class="form-control">
+                <input type="text" name="name" id="name" class="form-control" >
             </div>
             <div class="mb-3">
-                <label for="mail" class="form-label">Email</label>
-                <input type="email" name="mail" id="mail" class="form-control">
-            </div>
-            <div class="mb-3">
-                <label for="age" class="form-label">Edad</label>
-                <input type="text" name="age" id="age" class="form-control">
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-outline-success">Guardar</button>
-
-                <button class="btn btn-outline-primary">Actualizar</button>
+                <a class="btn btn-outline-success" onclick="save('https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/cloud/cloud', 'cloud')">Guardar</a>
             </div>
         </form>
-
+        <hr> 
         <div class="table_content">
             <button class="btn btn-outline-info" onclick="getInfo('https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/cloud/cloud', 'cloud')">Ver datos de la tabla</button>
             <form id="results"></form>
