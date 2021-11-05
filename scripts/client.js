@@ -39,9 +39,9 @@ function showInfo(items, name){
                         <input type="text" name="age" id="age" class="form-control" value="${client.age}">
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-outline-danger" onclick="borrar(${client.id})">Borrar</button>
+                        <a class="btn btn-outline-danger" onclick="deleteAction('${client.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client', 'client')">Borrar</a>
         
-                        <button class="btn btn-outline-primary">Actualizar</button>
+                        <a class="btn btn-outline-info" onclick="update('${client.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/client/client', 'client')">Actualizar</a>
                     </div>
                 </form>
                 <hr>   
@@ -74,7 +74,7 @@ function showInfo(items, name){
                     <div class="mb-3">
                         <a class="btn btn-outline-danger" onclick="deleteAction('${cloud.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/cloud/cloud','cloud')">Borrar</a>
         
-                        <button class="btn btn-outline-primary">Actualizar</button>
+                        <a class="btn btn-outline-info" onclick="update('${cloud.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/cloud/cloud','cloud')">Actualizar</a>
                     </div>
                 </form>
                 <hr>   
@@ -97,9 +97,9 @@ function showInfo(items, name){
                         <input type="text" name="messagetext" id="messagetext" class="form-control" value="${message.messagetext}">
                     </div>
                     <div class="mb-3">
-                        <a class="btn btn-outline-danger" onclick="deleteAction('${message.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/message/message/:id', 'message')">Borrar</a>
+                        <a class="btn btn-outline-danger" onclick="deleteAction('${message.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/message/message', 'message')">Borrar</a>
         
-                        <button class="btn btn-outline-primary">Actualizar</button>
+                        <a class="btn btn-outline-info" onclick="update('${message.id}', 'https://g501f2eee1fb184-retos.adb.sa-santiago-1.oraclecloudapps.com/ords/admin/message/message', 'message')">Actualizar</a>
                     </div>
                 </form>
                 <hr>   
@@ -160,6 +160,68 @@ function save(link, name){
         $.ajax({         
             url:link,
             type:"POST",         
+            data:dataToSend,         
+            contentType: "application/JSON",
+            dataType: "JSON",        
+            success:function(){
+                alert("Se ha guardado la información")                                         
+                getInfo(link,name);                 
+            }         
+        });
+    }
+}
+
+function update(link, name){
+    event.preventDefault() 
+    let myData;
+    if(name === 'client'){
+        console.log('actualizando--')
+        myData={         
+            id: $("#id").val(),        
+            name:$("#name").val(),
+            email:$("#email").val(),
+            age:$("#age").val(),    
+        };     
+        let dataToSend=JSON.stringify(myData);    
+        $.ajax({         
+            url:link,
+            type:"PUT",         
+            data:dataToSend,         
+            contentType: "application/JSON",
+            dataType: "JSON",        
+            success:function(){
+                alert("Se ha guardado la información")                                         
+                getInfo(link,name);                 
+            }         
+        });
+    }else if(name === 'cloud'){
+        myData={         
+            id: $("#id").val(),        
+            brand:$("#brand").val(),
+            category_id:$("#category_id").val(),
+            name:$("#name").val(),  
+        };     
+        let dataToSend=JSON.stringify(myData);    
+        $.ajax({         
+            url:link,
+            type:"PUT",         
+            data:dataToSend,         
+            contentType: "application/JSON",
+            dataType: "JSON",        
+            success:function(){
+                alert("Se ha guardado la información")                                         
+                getInfo(link,name);                 
+            }         
+        });
+    }else if(name === 'message'){
+        myData={         
+            id: $("#id").val(),        
+            messagetext:$("#messagetext").val()  
+        };     
+        let dataToSend=JSON.stringify(myData);    
+        $.ajax({         
+            url:link,
+            type:"PUT",         
             data:dataToSend,         
             contentType: "application/JSON",
             dataType: "JSON",        
